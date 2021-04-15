@@ -26,5 +26,6 @@ COPY --from=backend /usr/share/zoneinfo /usr/share/zoneinfo
 COPY --from=backend /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=backend /build/echo-http /srv/echo-http
 
+EXPOSE 8080
 WORKDIR /srv
 ENTRYPOINT ["/srv/echo-http"]
