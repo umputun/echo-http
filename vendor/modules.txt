@@ -1,0 +1,12 @@
+# github.com/go-pkgz/lgr v0.10.4
+## explicit
+github.com/go-pkgz/lgr
+# github.com/go-pkgz/rest v1.9.1
+## explicit
+github.com/go-pkgz/rest
+github.com/go-pkgz/rest/logger
+# github.com/pkg/errors v0.9.1
+github.com/pkg/errors
+# github.com/umputun/go-flags v1.5.1
+## explicit
+github.com/umputun/go-flags
