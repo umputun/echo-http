@@ -2,6 +2,7 @@
 
 Responds with json-formatted echo of the incoming request and with a predefined message.
 
+Can be install directly (`go get github.com/umputun/echo-http`) or as a multi-arch docker container `ghcr.io/umputun/echo-http`
 
 `http http 127.0.0.1:8080/some/test`
 
@@ -25,7 +26,6 @@ Responds with json-formatted echo of the incoming request and with a predefined 
 Application Options:
   -l, --listen=  listen on host:port (default: 0.0.0.0:8080) [$LISTEN]
   -m, --message= response message (default: echo) [$MESSAGE]
-      --dbg      debug mode [$DEBUG]
 
 Help Options:
   -h, --help     Show this help message
