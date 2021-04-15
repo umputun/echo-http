@@ -1,0 +1,30 @@
+builds:
+  - env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm
+      - arm64
+    ignore:
+      - goos: freebsd
+        goarch: arm
+      - goos: freebsd
+        goarch: arm64
+    ldflags: "-s -w -X main.revision={{.Tag}}-{{.ShortCommit}}-{{.CommitDate}}"
+
+archives:
+  - name_template: "{{.ProjectName}}_{{.Tag}}_{{.Os}}_{{.Arch}}"
+    replacements:
+      386: i386
+      amd64: x86_64
+      darwin: macos
+    format_overrides:
+      - goos: windows
+        format: zip
+    files:
+      - LICENSE
+      - README.md
