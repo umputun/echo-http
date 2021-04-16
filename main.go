@@ -21,7 +21,7 @@ var opts struct {
 var revision = "unknown"
 
 func main() {
-	fmt.Printf("reproxy %s\n", revision)
+	fmt.Printf("echo-http %s\n", revision)
 
 	p := flags.NewParser(&opts, flags.PrintErrors|flags.PassDoubleDash|flags.HelpFlag)
 	p.SubcommandsOptional = true
