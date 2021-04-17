@@ -41,20 +41,21 @@ func run() error {
 
 	router := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		echo := struct {
-			Message    string   `json:"message"`
-			Request    string   `json:"request"`
-			Host       string   `json:"host"`
-			Headers    []string `json:"headers"`
-			RemoteAddr string   `json:"remote_addr"`
+			Message    string            `json:"message"`
+			Request    string            `json:"request"`
+			Host       string            `json:"host"`
+			Headers    map[string]string `json:"headers"`
+			RemoteAddr string            `json:"remote_addr"`
 		}{
 			Message:    opts.Message,
 			Request:    r.Method + " " + r.RequestURI,
 			Host:       r.Host,
+			Headers:    make(map[string]string),
 			RemoteAddr: r.RemoteAddr,
 		}
 
 		for k, vv := range r.Header {
-			echo.Headers = append(echo.Headers, fmt.Sprintf("%s:%s", k, strings.Join(vv, ", ")))
+			echo.Headers[k] = strings.Join(vv, "; ")
 		}
 
 		rest.RenderJSON(w, &echo)
