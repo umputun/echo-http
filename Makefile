@@ -15,7 +15,7 @@ dist:
 	docker rm -f echo-http.bin
 
 build: info
-	- GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -ldflags "-X main.revision=$(REV) -s -w" -o ../dist/echo-http
+	- GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -ldflags "-X main.revision=$(REV) -s -w" -o ./dist/echo-http
 
 info:
 	- @echo "revision $(REV)"
