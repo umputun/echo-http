@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"os"
@@ -32,12 +33,12 @@ func main() {
 		os.Exit(1)
 	}
 	setupLog(opts.Dbg)
-	if err := run(); err != nil {
+	if err := run(context.TODO()); err != nil {
 		log.Printf("[ERROR] server failed, %v", err)
 	}
 }
 
-func run() error {
+func run(ctx context.Context) error {
 
 	router := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		echo := struct {
@@ -67,6 +68,13 @@ func run() error {
 		WriteTimeout:      time.Second * 30,
 		IdleTimeout:       time.Second * 30,
 	}
+
+	go func() {
+		<-ctx.Done()
+		if err := srv.Shutdown(ctx); err != nil {
+			log.Printf("[WARN] shutdown failed, %v", err)
+		}
+	}()
 
 	return srv.ListenAndServe()
 }
