@@ -11,21 +11,43 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: set up go 1.16
-        uses: actions/setup-go@v2
+      - name: set up go 1.21
+        uses: actions/setup-go@v4
         with:
-          go-version: 1.16
+          go-version: "1.21"
         id: go
 
       - name: checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+
+      - name: build and test
+        run: |
+          go test -timeout=60s -covermode=count -coverprofile=$GITHUB_WORKSPACE/profile.cov_tmp ./...
+          cat $GITHUB_WORKSPACE/profile.cov_tmp | grep -v "mocks" > $GITHUB_WORKSPACE/profile.cov
+        env:
+          TZ: "America/Chicago"
+
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: latest
+
+      - name: install goveralls
+        run: go install github.com/mattn/goveralls@latest
+
+      - name: submit coverage
+        run: |
+          goveralls -service="github" -coverprofile=$GITHUB_WORKSPACE/profile.cov
+        working-directory: app
+        env:
+          COVERALLS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v2
 
       - name: set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
 
       - name: available platforms
         run: echo ${{ steps.buildx.outputs.platforms }}
