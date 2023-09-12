@@ -38,7 +38,6 @@ jobs:
       - name: submit coverage
         run: |
           goveralls -service="github" -coverprofile=$GITHUB_WORKSPACE/profile.cov
-        working-directory: app
         env:
           COVERALLS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

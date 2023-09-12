@@ -5,7 +5,9 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"os/signal"
 	"strings"
+	"syscall"
 	"time"
 
 	log "github.com/go-pkgz/lgr"
@@ -33,7 +35,18 @@ func main() {
 		os.Exit(1)
 	}
 	setupLog(opts.Dbg)
-	if err := run(context.TODO()); err != nil {
+
+	ctx, cancel := context.WithCancel(context.Background())
+	sigs := make(chan os.Signal, 1)
+	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
+
+	go func() {
+		sig := <-sigs
+		log.Printf("[DEBUG] received signal %v, exiting...", sig)
+		cancel()
+	}()
+
+	if err := run(ctx); err != nil {
 		log.Printf("[ERROR] server failed, %v", err)
 	}
 }
