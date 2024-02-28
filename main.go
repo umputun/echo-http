@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 	"os"
@@ -12,6 +13,7 @@ import (
 
 	log "github.com/go-pkgz/lgr"
 	"github.com/go-pkgz/rest"
+	"github.com/go-pkgz/rest/logger"
 	"github.com/umputun/go-flags"
 )
 
@@ -36,18 +38,14 @@ func main() {
 	}
 	setupLog(opts.Dbg)
 
-	ctx, cancel := context.WithCancel(context.Background())
-	sigs := make(chan os.Signal, 1)
-	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
-
-	go func() {
-		sig := <-sigs
-		log.Printf("[DEBUG] received signal %v, exiting...", sig)
-		cancel()
-	}()
-
+	ctx, cancel := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
+	defer cancel()
 	if err := run(ctx); err != nil {
-		log.Printf("[ERROR] server failed, %v", err)
+		if !errors.Is(err, http.ErrServerClosed) {
+			log.Printf("[ERROR] server failed, %v", err)
+		} else {
+			log.Printf("[INFO] server stopped")
+		}
 	}
 }
 
@@ -75,12 +73,14 @@ func run(ctx context.Context) error {
 		rest.RenderJSON(w, &echo)
 	})
 
+	restLogger := logger.New(logger.Log(log.Default()), logger.Prefix("[DEBUG]"))
 	srv := http.Server{Addr: opts.Listen,
-		Handler:           router,
+		Handler:           rest.Wrap(router, rest.Recoverer(log.Default()), restLogger.Handler),
 		ReadHeaderTimeout: time.Second * 30,
 		WriteTimeout:      time.Second * 30,
 		IdleTimeout:       time.Second * 30,
 	}
+	log.Printf("[INFO] starting server on %s", opts.Listen)
 
 	go func() {
 		<-ctx.Done()
