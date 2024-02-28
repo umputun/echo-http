@@ -2,7 +2,7 @@
 
 Responds with json-formatted echo of the incoming request and with a predefined message.
 
-Can be install directly (`go get github.com/umputun/echo-http`) or as a multi-arch docker container `ghcr.io/umputun/echo-http`
+The binary can be installed directly (`go install github.com/umputun/echo-http`) or used as a multi-arch docker container `ghcr.io/umputun/echo-http`
 
 `http https://echo.umputun.com/something`
 
