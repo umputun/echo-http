@@ -21,7 +21,7 @@ var opts struct {
 	Dbg     bool   `long:"dbg" env:"DEBUG" description:"debug mode"`
 }
 
-var revision = "unknown"
+var revision = "local"
 
 func main() {
 	fmt.Printf("echo-http %s\n", revision)
