@@ -2,8 +2,19 @@
 
 Responds with json-formatted echo of the incoming request and with a predefined message.
 
-The binary can be installed directly (`go install github.com/umputun/echo-http`) or used as a multi-arch docker container `ghcr.io/umputun/echo-http`
+## installation
 
+- The binary can be installed directly with go install: `go install github.com/umputun/echo-http@latest`
+- Can be downloaded from [releases](https://github.com/umputun/echo-http/releases)
+- For MacOS user can be installed with brew: `brew install umputun/tap/echo-http`
+- For docker there is a multi-arch docker container `ghcr.io/umputun/echo-http`
+
+
+## usage
+
+Send any http request to the server and it will respond with a json-formatted echo with all the things it knows about the request.
+
+```sh
 `http https://echo.umputun.com/something`
 
 ```json
@@ -24,8 +35,9 @@ The binary can be installed directly (`go install github.com/umputun/echo-http`)
 }
 ```
 
+## Application options
+
 ```
-Application Options:
   -l, --listen=  listen on host:port (default: 0.0.0.0:8080) [$LISTEN]
   -m, --message= response message (default: echo) [$MESSAGE]
 
