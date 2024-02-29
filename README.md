@@ -6,7 +6,7 @@ Responds with json-formatted echo of the incoming request and with a predefined 
 
 - The binary can be installed directly with go install: `go install github.com/umputun/echo-http@latest`
 - Can be downloaded from [releases](https://github.com/umputun/echo-http/releases)
-- For MacOS user can be installed with brew: `brew install umputun/tap/echo-http`
+- For MacOS user can be installed with brew: `brew install umputun/apps/echo-http`
 - For docker there is a multi-arch docker container `ghcr.io/umputun/echo-http`
 
 

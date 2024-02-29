@@ -55,7 +55,7 @@ brews:
       name: umputun
       email: umputun@gmail.com
     commit_msg_template: "Brew formula update for {{ .ProjectName }} version {{ .Tag }}"
-    homepage: "https://echo-http.umputun.dev/"
+    homepage: "https://echo.umputun.com"
     description: "Responds with json-formatted echo of the incoming request and with a predefined message."
     license: "MIT"
 
@@ -64,7 +64,7 @@ nfpms:
     package_name: echo-http
     file_name_template: "{{.ProjectName}}_{{.Tag}}_{{.Os}}_{{.Arch}}"
     vendor: Umputun
-    homepage: https://echo-http.umputun.dev
+    homepage: https://echo.umputun.com
     maintainer: Umputun <umputun@gmail.com>
     description: Responds with json-formatted echo of the incoming request and with a predefined message
     license: MIT
