@@ -7,26 +7,29 @@ addEventListener("fetch", (event) => {
 
 async function handleRequest(request) {
     const url = new URL(request.url);
-    // Filter headers to exclude Cloudflare-specific and other non-essential headers
-    const filteredHeaders = {};
+    const headers = {};
     for (const [key, value] of request.headers) {
-        if (!key.toLowerCase().startsWith('cf-') && key.toLowerCase() !== 'x-real-ip') {
-            filteredHeaders[key] = value;
+        if (!key.startsWith("cf-") && key !== "x-real-ip") {
+            const normalizedKey = normalizeHeaderCase(key);
+            headers[normalizedKey] = value;
         }
     }
 
-    // Use CF-Connecting-IP as the remote_addr if available, otherwise leave as an empty string
-    const remoteAddr = request.headers.get('cf-connecting-ip') || '';
-
     const echo = {
-        message: "echo", // Adjust as needed or use environment variables for dynamic responses
-        request: `${request.method} ${url.pathname}`,
-        host: request.headers.get("host") || "", // Directly use the 'host' header from the request
-        headers: filteredHeaders,
-        remote_addr: remoteAddr, // Set to CF-Connecting-IP or leave empty if not available
+        message: "echo",
+        request: `${request.method} ${url.pathname}${url.search}`,
+        host: url.host,
+        headers: headers,
+        remote_addr: request.headers.get("x-real-ip") || "",
     };
 
     return new Response(JSON.stringify(echo), {
         headers: { "Content-Type": "application/json" },
     });
+}
+
+function normalizeHeaderCase(header) {
+    return header.split('-')
+        .map(part => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+        .join('-');
 }
