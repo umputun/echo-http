@@ -4,7 +4,6 @@ ARG GIT_BRANCH
 ARG GITHUB_SHA
 ARG CI
 
-ENV GOFLAGS="-mod=vendor"
 ENV CGO_ENABLED=0
 
 ADD . /build
@@ -21,6 +20,9 @@ RUN \
 
 
 FROM scratch
+
+# enables automatic changelog generation by tools like Dependabot
+LABEL org.opencontainers.image.source="https://github.com/umputun/echo-http"
 
 COPY --from=backend /usr/share/zoneinfo /usr/share/zoneinfo
 COPY --from=backend /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
