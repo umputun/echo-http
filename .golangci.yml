@@ -1,17 +1,10 @@
 run:
   timeout: 5m
-  output:
-    format: tab
-  skip-dirs:
-    - vendor
 
 linters-settings:
   govet:
-    check-shadowing: true
-  golint:
-    min-confidence: 0.1
-  maligned:
-    suggest-new: true
+    enable:
+      - shadow
   goconst:
     min-len: 2
     min-occurrences: 2
@@ -33,12 +26,11 @@ linters-settings:
 
 linters:
   enable:
-    - megacheck
     - revive
     - govet
     - unconvert
-    - megacheck
-    - gas
+    - staticcheck
+    - gosec
     - dupl
     - misspell
     - unused
@@ -55,6 +47,8 @@ linters:
   disable-all: true
 
 issues:
+  exclude-dirs:
+    - vendor
   exclude-rules:
     - text: "package-comments: should have a package comment"
       linters:
