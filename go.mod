@@ -3,7 +3,7 @@ module github.com/umputun/echo-http
 go 1.24.0
 
 require (
-	github.com/go-pkgz/lgr v0.11.1
+	github.com/go-pkgz/lgr v0.12.1
 	github.com/go-pkgz/rest v1.20.3
 	github.com/stretchr/testify v1.10.0
 	github.com/umputun/go-flags v1.5.1
