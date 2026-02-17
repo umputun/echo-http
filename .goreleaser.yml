@@ -41,6 +41,7 @@ archives:
     files:
       - LICENSE
       - README.md
+      - completions/*
     rlcp: true
 
 
@@ -59,6 +60,10 @@ brews:
     homepage: "https://echo.umputun.com"
     description: "Responds with json-formatted echo of the incoming request and with a predefined message."
     license: "MIT"
+    extra_install: |
+      bash_completion.install "completions/echo-http.bash" => "echo-http"
+      zsh_completion.install "completions/echo-http.zsh" => "_echo-http"
+      fish_completion.install "completions/echo-http.fish" => "echo-http.fish"
 
 nfpms:
   - id: echo-http
@@ -76,3 +81,10 @@ nfpms:
     bindir: /usr/bin
     epoch: 1
     release: 1
+    contents:
+      - src: completions/echo-http.bash
+        dst: /usr/share/bash-completion/completions/echo-http
+      - src: completions/echo-http.zsh
+        dst: /usr/share/zsh/vendor-completions/_echo-http
+      - src: completions/echo-http.fish
+        dst: /usr/share/fish/vendor_completions.d/echo-http.fish
