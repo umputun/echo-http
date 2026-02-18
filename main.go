@@ -26,7 +26,9 @@ var opts struct {
 var revision = "local"
 
 func main() {
-	fmt.Printf("echo-http %s\n", revision)
+	if os.Getenv("GO_FLAGS_COMPLETION") == "" {
+		fmt.Printf("echo-http %s\n", revision)
+	}
 
 	p := flags.NewParser(&opts, flags.PrintErrors|flags.PassDoubleDash|flags.HelpFlag)
 	p.SubcommandsOptional = true
