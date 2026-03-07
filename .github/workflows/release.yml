@@ -15,6 +15,7 @@ jobs:
       - name: check out code
         uses: actions/checkout@v6
         with:
+          fetch-depth: 0
           persist-credentials: false
 
       - name: set up go
